@@ -1,12 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import SegScreen from './pages/Seg';
+import Categories from './pages/Categories';
+import FirstScreen from './pages/FirstScreen';
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <MyPage />
+    </NavigationContainer>
+  );
+}
+
+function MyPage() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="FirstScreen"
+        component={FirstScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Seg"
+        component={SegScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Categories"
+        component={Categories}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
   );
 }
 
