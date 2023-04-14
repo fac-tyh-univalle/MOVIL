@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { SearchBar, Icon, Header } from 'react-native-elements';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faMugSaucer, faChevronLeft, faWhiskeyGlass, faCartShopping, faHotel, faBurger, faStar, faSchool, faEllipsis } from '@fortawesome/free-solid-svg-icons'
+import { faMugSaucer, faChevronLeft, faCarSide, faThumbTack, faPizzaSlice, faHome } from '@fortawesome/free-solid-svg-icons'
 
 const Categories = (props) => {
   const handlePress = () => {
@@ -27,43 +27,35 @@ const Categories = (props) => {
       <ScrollView style={styles.itemsContainer} contentContainerStyle={styles.itemsContentContainer}>
         <View style={styles.item}>
             <FontAwesomeIcon
-                icon={faMugSaucer}
-                size={45}
+                icon={faThumbTack}
+                size={35}
                 style={styles.itemIcon}
             />
-            <Text style={styles.itemText}>Cafes</Text>
+            <Text style={styles.itemText}>Atracciones Locales</Text>
         </View>
         <View style={styles.item}>
             <FontAwesomeIcon
-                icon={faWhiskeyGlass}
-                size={40}
+                icon={faCarSide}
+                size={35}
                 style={styles.itemIcon}
             />
-            <Text style={styles.itemText}>Bebidas Alcoholicas</Text>
+            <Text style={styles.itemText}>Automotriz</Text>
         </View>
         <View style={styles.item}>
             <FontAwesomeIcon
-                icon={faMugSaucer}
-                size={45}
+                icon={faPizzaSlice}
+                size={35}
                 style={styles.itemIcon}
             />
-            <Text style={styles.itemText}>Cafes</Text>
+            <Text style={styles.itemText}>Comida</Text>
         </View>
         <View style={styles.item}>
             <FontAwesomeIcon
-                icon={faMugSaucer}
-                size={45}
+                icon={faHome}
+                size={35}
                 style={styles.itemIcon}
             />
-            <Text style={styles.itemText}>Cafes</Text>
-        </View>
-        <View style={styles.item}>
-            <FontAwesomeIcon
-                icon={faMugSaucer}
-                size={45}
-                style={styles.itemIcon}
-            />
-            <Text style={styles.itemText}>Cafes</Text>
+            <Text style={styles.itemText}>Hogar</Text>
         </View>
       </ScrollView> 
     </View>
@@ -111,11 +103,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   itemsContentContainer: {
-    flexDirection: 'column', // Agregado para mostrar elementos en columna
+    width: '100%',
+    height: '100%',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   item: {
     width: '100%',
-    height: '10%',
+    height: '8%',
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
