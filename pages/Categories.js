@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
-import { SearchBar, Icon, Header } from 'react-native-elements';
+import { View, Text, StyleSheet, ScrollView, Pressable, SafeAreaView, StatusBar } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faMugSaucer, faChevronLeft, faCarSide, faThumbTack, faPizzaSlice, faHome } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faCarSide, faThumbTack, faPizzaSlice, faHome } from '@fortawesome/free-solid-svg-icons'
 
 const Categories = (props) => {
   const handlePress = () => {
@@ -10,55 +9,58 @@ const Categories = (props) => {
   };
 
   return (
-    <View style={styles.mainContainer}>
-      <View style={styles.topContainer}>
-        <Pressable style={styles.backIcon} onPress={handlePress}>
-          <FontAwesomeIcon
-            icon={faChevronLeft}
-            size={25}
-            color="#FFFFFF"
-            marginRight={15}
-          />
-        </Pressable>
-        <View style={styles.titleView}>
-            <Text style={styles.title}>Categorias</Text>
+      <View style={styles.mainContainer}>
+        <View style={styles.topContainer}>
+          <Pressable style={styles.backIcon} onPress={handlePress}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              size={25}
+              color="#FFFFFF"
+              marginRight={15}
+            />
+          </Pressable>
+          <View style={styles.titleView}>
+              <Text style={styles.title}>Categorias</Text>
+          </View>
+        </View>
+        <View style={styles.middlePart}>
+          <ScrollView style={{flex: 1}}
+                      contentContainerStyle={styles.scrollContainer}>
+            <View style={styles.item}>
+                <FontAwesomeIcon
+                    icon={faThumbTack}
+                    size={35}
+                    style={styles.itemIcon}
+                />
+                <Text style={styles.itemText}>Atracciones Locales</Text>
+            </View>
+            <View style={styles.item}>
+                <FontAwesomeIcon
+                    icon={faCarSide}
+                    size={35}
+                    style={styles.itemIcon}
+                />
+                <Text style={styles.itemText}>Automotriz</Text>
+            </View>
+            <View style={styles.item}>
+                <FontAwesomeIcon
+                    icon={faPizzaSlice}
+                    size={35}
+                    style={styles.itemIcon}
+                />
+                <Text style={styles.itemText}>Comida</Text>
+            </View>
+            <View style={styles.item}>
+                <FontAwesomeIcon
+                    icon={faHome}
+                    size={35}
+                    style={styles.itemIcon}
+                />
+                <Text style={styles.itemText}>Hogar</Text>
+            </View>
+          </ScrollView> 
         </View>
       </View>
-      <ScrollView style={styles.itemsContainer} contentContainerStyle={styles.itemsContentContainer}>
-        <View style={styles.item}>
-            <FontAwesomeIcon
-                icon={faThumbTack}
-                size={35}
-                style={styles.itemIcon}
-            />
-            <Text style={styles.itemText}>Atracciones Locales</Text>
-        </View>
-        <View style={styles.item}>
-            <FontAwesomeIcon
-                icon={faCarSide}
-                size={35}
-                style={styles.itemIcon}
-            />
-            <Text style={styles.itemText}>Automotriz</Text>
-        </View>
-        <View style={styles.item}>
-            <FontAwesomeIcon
-                icon={faPizzaSlice}
-                size={35}
-                style={styles.itemIcon}
-            />
-            <Text style={styles.itemText}>Comida</Text>
-        </View>
-        <View style={styles.item}>
-            <FontAwesomeIcon
-                icon={faHome}
-                size={35}
-                style={styles.itemIcon}
-            />
-            <Text style={styles.itemText}>Hogar</Text>
-        </View>
-      </ScrollView> 
-    </View>
   );
 };
 
@@ -97,17 +99,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: '#ABABAB',
   },
-  itemsContainer: {
-    width: '100%',
-    height: '100%',
+  middlePart: {
+    flex: 1,
     flexDirection: 'column',
   },
-  itemsContentContainer: {
-    width: '100%',
-    height: '100%',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
+  scrollContainer: {
     alignItems: 'center',
+    flexGrow: 1,
   },
   item: {
     width: '100%',

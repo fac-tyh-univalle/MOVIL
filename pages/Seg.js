@@ -5,8 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faMugSaucer, faLocationDot, faWhiskeyGlass, faCartShopping, faHotel, faBurger, faStar, faSchool, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 const Seg = (props) => {
+  const [search, setSearch] = React.useState('');
+
   const handlePress = () => {
     props.navigation.navigate('Categories');
+  };
+
+  const handlePress2 = () => {
+    props.navigation.navigate('MapView');
   };
 
   return (
@@ -25,13 +31,13 @@ const Seg = (props) => {
       </View>
       <View style={styles.middlePart}>
         <View style={styles.column}>
-          <View style={styles.itemContainer}>
+          <Pressable style={styles.itemContainer} onPress={handlePress2}>
             <FontAwesomeIcon
               icon={faMugSaucer}
               size={45}
             />
             <Text style={styles.itemText}>Cafes</Text>
-          </View>
+          </Pressable>
 
           <View style={styles.itemContainer}>
             <FontAwesomeIcon
@@ -98,6 +104,8 @@ const Seg = (props) => {
           inputContainerStyle={styles.searchBarInputContainer}
           inputStyle={styles.searchBarInput}
           searchIcon={<Icon name="search" size={18} color="#ABABAB" />}
+          value={search}
+          onChangeText={setSearch}
         />
         <View style={styles.iconContainer}>
           <Icon

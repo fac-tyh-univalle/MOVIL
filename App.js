@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SegScreen from './pages/Seg';
 import Categories from './pages/Categories';
 import FirstScreen from './pages/FirstScreen';
+import MapView from './pages/MapView';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,11 @@ function MyPage() {
       <Stack.Screen
         name="Categories"
         component={Categories}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MapView"
+        component={MapView}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
