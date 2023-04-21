@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { ImageBackground, StyleSheet, Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 const FirstScreen = (props) => {
     // const navigation = useNavigation();

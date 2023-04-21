@@ -6,6 +6,7 @@ import {Marker} from 'react-native-maps';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import PlaceCard from '../components/PlaceCard';
+import Carousel from 'react-native-snap-carousel';
 
 export default function App(props) {
   const handlePress = (num) => {
@@ -74,7 +75,30 @@ export default function App(props) {
       >
         {marker}
       </MapView>
-      <PlaceCard />
+      <View style={styles.carrouselContainer}>
+        <Carousel
+          data={[
+            {
+              title: 'Casa de la Cultura',
+              description: 'Casa de la Cultura de Cochabamba',
+              image: 'https://www.cochabamba.bo/wp-content/uploads/2019/03/casa-de-la-cultura-1.jpg',
+            },
+            {
+              title: 'Casa de la Cultura',
+              description: 'Casa de la Cultura de Cochabamba',
+              image: 'https://www.cochabamba.bo/wp-content/uploads/2019/03/casa-de-la-cultura-1.jpg',
+            },
+            {
+              title: 'Casa de la Cultura',
+              description: 'Casa de la Cultura de Cochabamba',
+              image: 'https://www.cochabamba.bo/wp-content/uploads/2019/03/casa-de-la-cultura-1.jpg',
+            },
+          ]}
+          renderItem={({ item }) => <PlaceCard title={item.title} description={item.description} image={item.image} />}
+          sliderWidth={400}
+          itemWidth={400}
+        />
+      </View>
       <View style={styles.cobntainer2}>
           <SearchBar
               placeholder="Buscar"
@@ -96,7 +120,6 @@ const styles = StyleSheet.create({
   topContainer: {
     position: 'relative',
     zIndex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0)',
     flexDirection: 'row',
     width: '100%', 
     height: '10%', 
@@ -158,5 +181,15 @@ const styles = StyleSheet.create({
   },
   searchBarInput: {
     color: '#ABABAB',
+  },
+  carrouselContainer: {
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: 60,
+    width: '100%',
+    height: '25%',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
   },
 });
