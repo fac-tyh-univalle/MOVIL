@@ -1,8 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, Pressable } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
 const PlaceCard = () => {
+    const navigation = useNavigation();
+
     return (
+        <Pressable onPress={() => navigation.navigate('CardPlace')}>
         <View style={styles.container}>
             <View style={styles.imgContainer}>
                 <Image 
@@ -24,6 +28,7 @@ const PlaceCard = () => {
                 </Text>
             </View>
         </View>
+        </Pressable>
     );
 }
 
@@ -32,11 +37,14 @@ const styles = StyleSheet.create({
         zIndex: 1, 
         flexDirection: 'row',
         backgroundColor: '#111213',
-        width: '100%',
-        height: '80%',
+        width: 390,
+        height: 170,
         borderRadius: 10,
         bottom: 0,
         justifyContent: 'center',
+        marginRight: 10,
+        marginLeft: 10,
+        marginBottom: 15,
     },
     imgContainer: {
         width: '40%',

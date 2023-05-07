@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import MapView from 'react-native-maps';
-import { StyleSheet, View, Pressable, Alert } from 'react-native';
+import { StyleSheet, View, Pressable, Alert, ScrollView, Text, Image } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import {Marker} from 'react-native-maps';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import PlaceCard from '../components/PlaceCard';
-import Carousel from 'react-native-snap-carousel';
 
 export default function App(props) {
   const handlePress = (num) => {
@@ -76,28 +75,13 @@ export default function App(props) {
         {marker}
       </MapView>
       <View style={styles.carrouselContainer}>
-        <Carousel
-          data={[
-            {
-              title: 'Casa de la Cultura',
-              description: 'Casa de la Cultura de Cochabamba',
-              image: 'https://www.cochabamba.bo/wp-content/uploads/2019/03/casa-de-la-cultura-1.jpg',
-            },
-            {
-              title: 'Casa de la Cultura',
-              description: 'Casa de la Cultura de Cochabamba',
-              image: 'https://www.cochabamba.bo/wp-content/uploads/2019/03/casa-de-la-cultura-1.jpg',
-            },
-            {
-              title: 'Casa de la Cultura',
-              description: 'Casa de la Cultura de Cochabamba',
-              image: 'https://www.cochabamba.bo/wp-content/uploads/2019/03/casa-de-la-cultura-1.jpg',
-            },
-          ]}
-          renderItem={({ item }) => <PlaceCard title={item.title} description={item.description} image={item.image} />}
-          sliderWidth={400}
-          itemWidth={400}
-        />
+        <ScrollView horizontal={true}>
+          <PlaceCard />
+          <PlaceCard />
+          <PlaceCard />
+          <PlaceCard />
+          <PlaceCard />
+        </ScrollView>
       </View>
       <View style={styles.cobntainer2}>
           <SearchBar
@@ -191,5 +175,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
   },
 });
