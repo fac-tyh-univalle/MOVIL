@@ -6,6 +6,7 @@ import { faMugSaucer, faLocationDot, faWhiskeyGlass, faCartShopping, faHotel, fa
 import MenuCard from './Components/MenuCard';
 import Footer from './Components/Footer';
 import MainScreenStyles from './Styles/MainScreenStyles';
+import Loader from '../../components/Loader';
 
 const Seg = (props) => {
   const [collections, setCollections] = useState([]);
@@ -110,7 +111,7 @@ const Seg = (props) => {
             ))
           }
           {isLoading && (
-            <Text>Cargando...</Text>
+            <Loader/>
           )}
          </View>
       </View>
