@@ -31,6 +31,8 @@ const MainScreenStyles = StyleSheet.create({
       fontWeight: 'bold',
     },
     middlePart: {
+      flex: 1,
+      backgroundColor: 'red',
       height: '100%',
       flexDirection: 'row', 
       justifyContent: 'space-between', 

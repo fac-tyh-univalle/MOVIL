@@ -19,7 +19,7 @@ const CardPlace = () => {
           <Text style={styles.titleStyle}>Paseo Aranjuez</Text>
           <Icon name="favorite-border" color={iconColorFavorite} />
         </View>
-        <Image style={styles.imageStyle} source={require('../assets/img/card-image.png')} />
+        <Image style={styles.imageStyle} source={require('../Assets/card-image.png')} />
         <View style={styles.infoStyle}>
           <Text style={styles.categoryStyle}>Centro Comercial</Text>
           <Text style={styles.description}>

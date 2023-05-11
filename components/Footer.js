@@ -3,8 +3,9 @@ import { View, Pressable, StyleSheet } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
-const Footer = (props) => {
+const Footer = () => {
     const [search, setSearch] = React.useState('');
+    const navigation = useNavigation();
 
     return (
         <View style={styles.bottomContainer}>
@@ -18,7 +19,7 @@ const Footer = (props) => {
             onChangeText={setSearch}
             />
             <View style={styles.iconContainer}>
-                <Pressable onPress={() => props.navigation.navigate('Seg')}>
+                <Pressable onPress={() => navigation.navigate('Seg')}>
                     <Icon
                     name="home"
                     type="font-awesome"
@@ -27,7 +28,7 @@ const Footer = (props) => {
                     containerStyle={styles.icon}
                     />
                 </Pressable>
-                <Pressable onPress={() => props.navigation.navigate('MapView')}>
+                <Pressable onPress={() => navigation.navigate('MapView')}>
                     <Icon
                     name="compass"
                     type="font-awesome"
@@ -36,7 +37,7 @@ const Footer = (props) => {
                     containerStyle={styles.icon}
                     />
                 </Pressable> 
-                <Pressable onPress={() => props.navigation.navigate('FavoriteScreen')}> 
+                <Pressable onPress={() => navigation.navigate('FavoriteScreen')}> 
                     <Icon
                     name="heart"
                     type="font-awesome"

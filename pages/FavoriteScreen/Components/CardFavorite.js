@@ -13,7 +13,7 @@ const CardFavorite = () => {
       <View style={styles.card}>
         <View style={styles.imageContainer}>
           <BackgroundImage
-            source={require("../assets/img/card-image.png")}
+            source={require("../Assets/card-image.png")}
             style={styles.backgroundImage}
             borderRadius={15}
           >

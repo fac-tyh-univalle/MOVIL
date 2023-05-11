@@ -4,7 +4,7 @@ import PocketBase from 'pocketbase'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faMugSaucer, faLocationDot, faWhiskeyGlass, faCartShopping, faHotel, faBurger, faStar, faSchool, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import MenuCard from './Components/MenuCard';
-import Footer from './Components/Footer';
+import Footer from '../../components/Footer';
 import MainScreenStyles from './Styles/MainScreenStyles';
 import Loader from '../../components/Loader';
 
@@ -26,7 +26,7 @@ const Seg = (props) => {
       icon: faCartShopping,
     },
     {
-      title: 'Hotel',
+      title: 'Hoteles',
       icon: faHotel,
     },
     {
@@ -115,7 +115,7 @@ const Seg = (props) => {
           )}
          </View>
       </View>
-      <Footer props={props} />
+      <Footer  />
     </View>
   );
 };

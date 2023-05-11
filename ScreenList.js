@@ -1,11 +1,10 @@
-import FirstScreen from "./pages/FirstScreen"
+import FirstScreen from './pages/LandingScreen/FirstScreen';
 import SegScreen from './pages/MainScreen/Seg';
-import Categories from './pages/Categories';
-import MapView from './pages/MapView';
-import CardFavorite from './components/CardFavorite';
-import CardPlace from './components/CardPlace';
-import FavoriteScreen from './pages/FavoriteScreen';
-import PlaceCard from './components/PlaceCard';
+import MapView from './pages/MapScreen/MapView';
+import CardFavorite from './pages/FavoriteScreen/Components/CardFavorite';
+import FavoriteScreen from './pages/FavoriteScreen/FavoriteScreen';
+import PlaceCard from './pages/MapScreen/Components/PlaceCard';
+import CardPlace from './pages/MapScreen/Components/CardPlace';
 
 const ScreenList = [
     {
@@ -17,10 +16,6 @@ const ScreenList = [
         component: SegScreen,
     },
     {
-        name: 'Categories',
-        component: Categories,
-    },
-    {
         name: 'MapView',
         component: MapView,
     },
@@ -29,17 +24,17 @@ const ScreenList = [
         component: CardFavorite,
     },
     {
-        name: 'CardPlace',
-        component: CardPlace,
-    },
-    {
         name: 'FavoriteScreen',
         component: FavoriteScreen,
     },
     {
         name: 'PlaceCard',
         component: PlaceCard,
-    }
+    },
+    {
+        name: 'CardPlace',
+        component: CardPlace,
+    },
 ]
 
 export default ScreenList;

@@ -10,7 +10,7 @@ const PlaceCard = () => {
         <View style={styles.container}>
             <View style={styles.imgContainer}>
                 <Image 
-                    source={require('../assets/img/placeImg.png')}
+                    source={require('../Assets/placeImg.png')}
                     style={{width: '100%', height: '100%'}}
                 />
             </View>
