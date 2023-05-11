@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MapView from 'react-native-maps';
 import { StyleSheet, View, Pressable, Alert, ScrollView, Text, Image } from 'react-native';
 import { SearchBar } from 'react-native-elements';
@@ -6,8 +6,47 @@ import {Marker} from 'react-native-maps';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import PlaceCard from '../components/PlaceCard';
+import PocketBase from 'pocketbase';
 
 export default function App(props) {
+  const { category } = props.route.params;
+  const [isLoading, setIsLoading] = useState(false);
+  const [places, setPlaces] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setIsLoading(true);
+  
+        const pb = new PocketBase('https://magnificent-painter.pockethost.io');  
+
+        let url = 'https://magnificent-painter.pockethost.io/api/files/';
+        let records = await pb.collection('location').getFullList({
+          sort: '-created',
+        })
+
+        records = records.filter((record) => {
+
+          return record.status == "active" && record.category_id[0] == category;
+        });
+
+        records = records.map((record) => { 
+          return {
+            ...record,
+            // url del backend + id de la coleccion + id del registro + nombre de la imagen
+            image: record.photos ? url + record.collectionId + "/" + record.id + "/" + record.photos[0] : null,
+          }
+        })
+
+        setPlaces(records);
+        setIsLoading(false);
+      } catch (e) {
+        console.log(e);
+      }
+    })()
+  }, [])
+
+
   const handlePress = (num) => {
     if (num === 1) {
       props.navigation.goBack();

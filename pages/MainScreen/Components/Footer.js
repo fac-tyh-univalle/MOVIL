@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Pressable, StyleSheet } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 
 const Footer = (props) => {
     const [search, setSearch] = React.useState('');
-    
 
     return (
         <View style={styles.bottomContainer}>
