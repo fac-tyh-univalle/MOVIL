@@ -2,11 +2,14 @@ import React from "react";
 import { View, Text, StyleSheet, Dimensions, Image, Pressable } from "react-native";
 import { Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
+import { useRoute } from '@react-navigation/native';
 
 const iconColor = "#FFFFFF";
 const iconColorFavorite = "#F23134";
 
 const CardPlace = () => {
+  const route = useRoute();
+  const { image, title, type, description, address, schedule } = route.params;
   const navigation = useNavigation();
 
   return (
@@ -16,21 +19,19 @@ const CardPlace = () => {
           <Pressable onPress={() => navigation.goBack()}>
             <Icon name="arrow-back" color={iconColor} />
           </Pressable>
-          <Text style={styles.titleStyle}>Paseo Aranjuez</Text>
+          <Text style={styles.titleStyle}>{title}</Text>
           <Icon name="favorite-border" color={iconColorFavorite} />
         </View>
-        <Image style={styles.imageStyle} source={require('../Assets/card-image.png')} />
+        <Image style={styles.imageStyle} src={image} />
         <View style={styles.infoStyle}>
-          <Text style={styles.categoryStyle}>Centro Comercial</Text>
+          <Text style={styles.categoryStyle}>{type}</Text>
           <Text style={styles.description}>
-            El paseo aranjuez es uno de los centros comerciales mas grandes de
-            Cochabamba en el se encuentran desde salas de cine hasta tiendas de
-            ropa, hay lugares en los cuales puedes comer, jugar y pasar el rato.
+            {description}
           </Text>
           <Text style={styles.address}>
-            Direccion: Av.America #488 esquina Pantaleon Dalence.
+            Direccion: <Text style={styles.noColor}>{address}</Text>
           </Text>
-          <Text style={styles.schedule}>Horario de Atencion: Abierto </Text>
+          <Text style={styles.schedule}>Horario de Atencion: <Text style={styles.noColor} > {schedule}</Text> </Text>
         </View>
       </View>
     </View>
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
   },
   categoryStyle: {
     fontWeight: "200",
-    color: "#fff",
+    color: '#9D9797',
   },
   infoStyle: {
     alignContent: "center",
@@ -106,14 +107,14 @@ const styles = StyleSheet.create({
     marginTop: 8,
     },
     address: {
-    color: "#fff",
+    color: "#3CAFE7",
     fontSize: 15,
     fontWeight: "200",
     textAlign: "justify",
     marginTop: 10,
     },
     schedule: {
-    color: "#fff",
+    color: "#9EFC8E",
     fontSize: 15,
     fontWeight: "200",
     textAlign: "justify",
@@ -122,7 +123,9 @@ const styles = StyleSheet.create({
   iconLabelStyle: {
     flexDirection: "row",
     marginTop: 10,
-  },
+  },noColor: {
+    color: "#fff",
+  }
 });
 
 export default CardPlace;

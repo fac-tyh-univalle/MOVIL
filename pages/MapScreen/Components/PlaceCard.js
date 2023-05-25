@@ -1,30 +1,29 @@
 import React from 'react';
 import { StyleSheet, View, Image, Text, Pressable } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { Dimensions } from 'react-native';
+const { width, height } = Dimensions.get('window');
 
-const PlaceCard = () => {
+const PlaceCard = ({image,title,type,description,address,schedule}) => {
     const navigation = useNavigation();
-
     return (
-        <Pressable onPress={() => navigation.navigate('CardPlace')}>
+        <Pressable onPress={() => navigation.navigate('CardPlace',{image,title,type,description,address,schedule})}>
         <View style={styles.container}>
             <View style={styles.imgContainer}>
                 <Image 
-                    source={require('../Assets/placeImg.png')}
+                    src={image}
                     style={{width: '100%', height: '100%'}}
                 />
             </View>
             <View style={styles.infoContainer}>
                 <Text style={styles.title}>
-                    Paseo Aranjuez
+                    {title}
                 </Text>
                 <Text numberOfLines={4} ellipsizeMode='tail' style={styles.description}>
-                    El paseo aranjuez es uno de los centros comerciales mas grandes de Cochabamba 
-                    en el se encuentran desde salas de cine hasta tiendas de ropa, hay lugares en 
-                    los cuales puedes comer, jugar y pasar el rato.
+                    {description}
                 </Text>
-                <Text style={styles.kmText}>
-                    2 Km
+                <Text style={styles.scheduleText}>
+                    {schedule} 
                 </Text>
             </View>
         </View>
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
         zIndex: 1, 
         flexDirection: 'row',
         backgroundColor: '#111213',
-        width: 390,
+        width: width - 20,
         height: 170,
         borderRadius: 10,
         bottom: 0,
@@ -61,7 +60,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 15,
-        color: 'white',
+        color: '#9D9797',
+        fontWeight: 'bold',
     },
     description: {
         height: '60%',
@@ -71,10 +71,10 @@ const styles = StyleSheet.create({
         maxHeight: '100%',
         marginTop: 5,
     },
-    kmText: {
+    scheduleText: {
         marginTop: 5,
         fontSize: 15,
-        color: '#3CAFE7',
+        color: '#9EFC8E',
     },
 });
 

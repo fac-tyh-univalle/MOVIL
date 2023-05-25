@@ -8,27 +8,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import PlaceCard from './Components/PlaceCard';
 import PocketBase from 'pocketbase';
+import Loader from '../../components/Loader';
+import { useRoute } from '@react-navigation/native';
 
 export default function App(props) {
-  // const { category } = props.route.params;
+ 
   const [isLoading, setIsLoading] = useState(false);
   const [places, setPlaces] = useState([]);
+  var pathImage= 'https://magnificent-painter.pockethost.io/api/files/';
+
+  
 
   useEffect(() => {
     (async () => {
       try {
         setIsLoading(true);
   
-        const pb = new PocketBase('https://magnificent-painter.pockethost.io');  
-
+        const pb = new PocketBase('https://magnificent-painter.pockethost.io'); 
         let url = 'https://magnificent-painter.pockethost.io/api/files/';
         let records = await pb.collection('location').getFullList({
           sort: '-created',
         })
-
         records = records.filter((record) => {
 
-          return record.status == "active" && record.category_id[0] == category;
+          return record.status == "active" ;
         });
 
         records = records.map((record) => { 
@@ -64,7 +67,7 @@ export default function App(props) {
       );
     }
   };
-
+  
   const [search, setSearch] = useState('');
 
   const [marker, setMarker] = useState(null);
@@ -116,11 +119,23 @@ export default function App(props) {
       </MapView>
       <View style={MapScreenStyles.carrouselContainer}>
         <ScrollView horizontal={true}>
-          <PlaceCard />
-          <PlaceCard />
-          <PlaceCard />
-          <PlaceCard />
-          <PlaceCard />
+          {
+
+            places && places.map((item, index) => (
+              <PlaceCard
+                key={index}
+                image={pathImage + item.collectionId + "/" + item.id + "/" + item.photos[0]}
+                title={item.name}
+                type={item.type}
+                description={item.description}
+                address={item.address}
+                schedule={item.schedule}
+              />
+            ))
+          }
+          {isLoading && (
+            <Loader/>
+          )}
         </ScrollView>
       </View>
       <View style={MapScreenStyles.cobntainer2}>

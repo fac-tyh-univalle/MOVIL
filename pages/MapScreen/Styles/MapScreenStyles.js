@@ -1,8 +1,14 @@
 import { StyleSheet } from 'react-native';
+import { Dimensions } from 'react-native';
+const { width, height } = Dimensions.get('window');
+
+
 
 const MapScreenStyles = StyleSheet.create({
     container: {
       flex: 1,
+      width: width,
+      height: height,
     },
     topContainer: {
       position: 'relative',
