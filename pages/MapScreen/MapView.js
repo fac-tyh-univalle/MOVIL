@@ -126,12 +126,14 @@ export default function App(props) {
             title={place.name}
             onPress={() => { 
               props.navigation.navigate('CardPlace', { 
-                image: place.image,
+                photos: place.photos,
                 title: place.name,
                 type: place.type,
                 description: place.description,
                 address: place.address,
-                schedule: place.schedule
+                schedule: place.schedule,
+                collectionId: place.collectionId,
+                id: place.id,
               }) 
             }}
           />

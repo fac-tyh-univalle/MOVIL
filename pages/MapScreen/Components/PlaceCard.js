@@ -4,10 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import { Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
-const PlaceCard = ({image,title,type,description,address,schedule}) => {
+const PlaceCard = ({image,title,type,description,address,schedule,collectionId,id}) => {
     const navigation = useNavigation();
     return (
-        <Pressable onPress={() => navigation.navigate('CardPlace',{image,title,type,description,address,schedule})}>
+        <Pressable onPress={() => navigation.navigate('CardPlace',{image,title,type,description,address,schedule,collectionId,id})}>
         <View style={styles.container}>
             <View style={styles.imgContainer}>
                 <Image 
