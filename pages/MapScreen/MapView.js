@@ -7,48 +7,56 @@ import {Marker} from 'react-native-maps';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faChevronLeft, faQuestion } from '@fortawesome/free-solid-svg-icons';
 import PlaceCard from './Components/PlaceCard';
-import PocketBase from 'pocketbase';
+import * as Location from 'expo-location';
 import Loader from '../../components/Loader';
-import { useRoute } from '@react-navigation/native';
+import PocketBaseService from '../../services/PocketBaseService';
+
 
 export default function App(props) {
- 
   const [isLoading, setIsLoading] = useState(false);
   const [places, setPlaces] = useState([]);
-  var pathImage= 'https://magnificent-painter.pockethost.io/api/files/';
+  const [region, setRegion] = useState(null);
+  const [search, setSearch] = useState('');
+  const [marker, setMarker] = useState(null);
 
-  
+  var pathImage= 'https://magnificent-painter.pockethost.io/api/files/';
 
   useEffect(() => {
     (async () => {
       try {
-        setIsLoading(true);
-  
-        const pb = new PocketBase('https://magnificent-painter.pockethost.io'); 
-        let url = 'https://magnificent-painter.pockethost.io/api/files/';
-        let records = await pb.collection('location').getFullList({
-          sort: '-created',
-        })
-        records = records.filter((record) => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setErrorMsg('Permission to access location was denied');
+          return;
+        }
 
-          return record.status == "active" ;
+        let location = await Location.getCurrentPositionAsync({});
+        console.log(location);
+
+        setRegion({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
         });
 
-        records = records.map((record) => { 
-          return {
-            ...record,
-            // url del backend + id de la coleccion + id del registro + nombre de la imagen
-            image: record.photos ? url + record.collectionId + "/" + record.id + "/" + record.photos[0] : null,
-          }
-        })
+        setIsLoading(true);
 
+        // Obtén el ID de la categoría desde los parámetros de la ruta
+        const { categoryId } = props.route.params;
+
+        // Obtén los lugares de la categoría
+        let records = await PocketBaseService.getLocationsByCategory(categoryId);
         setPlaces(records);
+
+        console.log(records);
+
         setIsLoading(false);
       } catch (e) {
         console.log(e);
       }
-    })()
-  }, [])
+    })();
+  }, []);
 
 
   const handlePress = (num) => {
@@ -67,10 +75,6 @@ export default function App(props) {
       );
     }
   };
-  
-  const [search, setSearch] = useState('');
-
-  const [marker, setMarker] = useState(null);
 
   const handleMapPress = (event) => {
     const { coordinate } = event.nativeEvent;
@@ -108,44 +112,59 @@ export default function App(props) {
       <MapView
         onPress={handleMapPress}
         style={MapScreenStyles.map} 
-        initialRegion={{
-          latitude: -17.375264,
-          longitude: -66.159567,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
+        region={region}
+        showsUserLocation={true}
       >
-        {marker}
+        {places.map((place, index) => (
+          <Marker
+            key={index}
+            pinColor="blue" // Esto cambiará el color del marcador a azul
+            coordinate={{
+              latitude: place.latitude,
+              longitude: place.longitude,
+            }}
+            title={place.name}
+            onPress={() => { 
+              props.navigation.navigate('CardPlace', { 
+                image: place.image,
+                title: place.name,
+                type: place.type,
+                description: place.description,
+                address: place.address,
+                schedule: place.schedule
+              }) 
+            }}
+          />
+        ))}
       </MapView>
       <View style={MapScreenStyles.carrouselContainer}>
         <ScrollView horizontal={true}>
-          {
-
-            places && places.map((item, index) => (
-              <PlaceCard
-                key={index}
-                image={pathImage + item.collectionId + "/" + item.id + "/" + item.photos[0]}
-                title={item.name}
-                type={item.type}
-                description={item.description}
-                address={item.address}
-                schedule={item.schedule}
-              />
-            ))
+        {
+          places && places.map((item, index) => (
+            <PlaceCard
+              key={index}
+              image={pathImage + item.collectionId + "/" + item.id + "/" + item.photos[0]}
+              title={item.name}
+              type={item.type}
+              description={item.description}
+              address={item.address}
+              schedule={item.schedule}
+            />
+          ))
           }
           {isLoading && (
-            <Loader/>
+          <Loader/>
           )}
         </ScrollView>
       </View>
       <View style={MapScreenStyles.cobntainer2}>
           <SearchBar
-              placeholder="Buscar"
-              containerStyle={MapScreenStyles.searchBarContainer}
-              inputContainerStyle={MapScreenStyles.searchBarInputContainer}
-              inputStyle={MapScreenStyles.searchBarInput}
-              value={search}
-              onChangeText={setSearch}
+            placeholder="Buscar"
+            containerStyle={MapScreenStyles.searchBarContainer}
+            inputContainerStyle={MapScreenStyles.searchBarInputContainer}
+            inputStyle={MapScreenStyles.searchBarInput}
+            value={search}
+            onChangeText={setSearch}
           />
       </View>
     </View>

@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
-import PocketBase from 'pocketbase'
+import { View, Text } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faMugSaucer, faLocationDot, faWhiskeyGlass, faCartShopping, faHotel, faBurger, faStar, faSchool, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import MenuCard from './Components/MenuCard';
 import Footer from '../../components/Footer';
 import MainScreenStyles from './Styles/MainScreenStyles';
 import Loader from '../../components/Loader';
+import PocketBaseService from '../../services/PocketBaseService';
+import * as Location from 'expo-location';
 
 const Seg = (props) => {
   const [collections, setCollections] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [location, setLocation] = useState(null);
 
   const menuItems = [
     {
@@ -46,43 +48,24 @@ const Seg = (props) => {
   useEffect(() => {
     (async () => {
       try {
-
+  
         setIsLoading(true);
-        // Creamos instancia de PocketBase con la URL de nuestro proyecto
-        const pb = new PocketBase('https://magnificent-painter.pockethost.io');
-        
-        // Obtenemos la lista de categorias
-        // .collection('nombre_coleccion')
-        let records = await pb.collection('category').getFullList({
-            sort: '-created',
-        });
-
-        records = records.filter((record) => {
-          return record.status
-        })
-
-        records = records.map((record) => {
-
-          let icon = menuItems.find((item) => item.title.toLowerCase() === record.name.toLowerCase()).icon;
-
-          return {
-            ...record,
-            icon: icon !== null ? icon : faEllipsis,
-          }
-        })
-
+  
+        let records = await PocketBaseService.getCategories(menuItems);
         setCollections(records);
+  
         setIsLoading(false);
 
+        let location = await Location.getCurrentPositionAsync({});
+        let geocode = await Location.reverseGeocodeAsync(location.coords);
+        setLocation(geocode[0]);
+  
       } catch (e) {
         console.log(e);
-        
       }
     })()
-
   }, [])
 
-  // Convertir a scroll view
   return (
     <View style={MainScreenStyles.mainContainer}>
       <View style={MainScreenStyles.topContainer}>
@@ -94,7 +77,7 @@ const Seg = (props) => {
             color="#3CAFE7"
             marginRight={15}
           />
-          <Text style={MainScreenStyles.text}>Cercado, Cochabamba</Text>
+          <Text style={MainScreenStyles.text}>{location ? `${location.city}, ${location.region}` : 'Cargando...'}</Text>
         </View>
       </View>
       <View style={MainScreenStyles.middlePart}>

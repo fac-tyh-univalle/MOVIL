@@ -4,9 +4,14 @@ import { SearchBar, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
 const Footer = () => {
+    // Para que el searchbar funcione correctamente
     const [search, setSearch] = React.useState('');
+
+    // Para navegar entre pantallas
     const navigation = useNavigation();
 
+    // Renderiza el componente que consiste en nuestro menu de la parte inferior de la pantalla, el cual contiene un searchbar y 4 iconos
+    // que nos llevan a las pantallas de inicio, mapa, favoritos y configuración.
     return (
         <View style={styles.bottomContainer}>
             <SearchBar

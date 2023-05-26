@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Dimensions, Image, Pressable } from "react-nati
 import { Icon } from "react-native-elements";
 import { useNavigation } from "@react-navigation/native";
 import { useRoute } from '@react-navigation/native';
+import { ScrollView } from "react-native-gesture-handler";
+import Video from "react-native-video";
 
 const iconColor = "#FFFFFF";
 const iconColorFavorite = "#F23134";
@@ -22,17 +24,25 @@ const CardPlace = () => {
           <Text style={styles.titleStyle}>{title}</Text>
           <Icon name="favorite-border" color={iconColorFavorite} />
         </View>
-        <Image style={styles.imageStyle} src={image} />
-        <View style={styles.infoStyle}>
-          <Text style={styles.categoryStyle}>{type}</Text>
-          <Text style={styles.description}>
-            {description}
-          </Text>
-          <Text style={styles.address}>
-            Direccion: <Text style={styles.noColor}>{address}</Text>
-          </Text>
-          <Text style={styles.schedule}>Horario de Atencion: <Text style={styles.noColor} > {schedule}</Text> </Text>
-        </View>
+        <ScrollView>
+          <Image style={styles.imageStyle} src={image} />
+          <View style={styles.infoStyle}>
+            <Text style={styles.categoryStyle}>{type}</Text>
+            <Text style={styles.description}>
+              {description}
+            </Text>
+            <Text style={styles.address}>
+              Direccion: <Text style={styles.noColor}>{address}</Text>
+            </Text>
+            <Text style={styles.schedule}>Horario de Atencion: <Text style={styles.noColor} > {schedule}</Text> </Text>
+          </View>
+          <Video
+            source={image}
+            style={styles.imageStyle}
+            resizeMode="cover"
+            muted={true}
+          />
+        </ScrollView>
       </View>
     </View>
   );

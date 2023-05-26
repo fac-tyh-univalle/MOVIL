@@ -1,10 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Pressable, StyleSheet, Text } from "react-native";
 
-const MenuCard = ({id,title, icon, props}) => {
-
+const MenuCard = ({title, icon, id, props}) => {
   return (
-    <Pressable style={styles.itemContainer} onPress={() => props.navigation.navigate('MapView',{id})}>
+    <Pressable style={styles.itemContainer} onPress={() => props.navigation.navigate('MapView', { categoryId: id })}>
       <FontAwesomeIcon
         icon={icon}
         size={40}
