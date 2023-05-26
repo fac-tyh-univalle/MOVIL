@@ -37,7 +37,7 @@ const CardPlace = () => {
             <Text style={styles.schedule}>Horario de Atencion: <Text style={styles.noColor} > {schedule}</Text> </Text>
           </View>
           <Video
-            source={image}
+            source={{uri: image ? image : null}}
             style={styles.imageStyle}
             resizeMode="cover"
             muted={true}

@@ -9,6 +9,7 @@ import Loader from '../../components/Loader';
 import PocketBaseService from '../../services/PocketBaseService';
 import * as Location from 'expo-location';
 
+
 const Seg = (props) => {
   const [collections, setCollections] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
