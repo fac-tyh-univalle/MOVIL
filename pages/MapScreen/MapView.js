@@ -126,14 +126,13 @@ export default function App(props) {
             title={place.name}
             onPress={() => { 
               props.navigation.navigate('CardPlace', { 
-                photos: place.photos,
+                id: place.id,
+                image: place.image,
                 title: place.name,
                 type: place.type,
                 description: place.description,
                 address: place.address,
-                schedule: place.schedule,
-                collectionId: place.collectionId,
-                id: place.id,
+                schedule: place.schedule
               }) 
             }}
           />
@@ -144,6 +143,7 @@ export default function App(props) {
         {
           places && places.map((item, index) => (
             <PlaceCard
+              id={item.id}
               key={index}
               image={pathImage + item.collectionId + "/" + item.id + "/" + item.photos[0]}
               title={item.name}

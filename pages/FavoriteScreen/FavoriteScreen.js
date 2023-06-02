@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import CardFavorite from "./Components/CardFavorite";
 import FavoriteScreenStyles from "./Styles/FavoriteScreenStyles";
 import Footer from "../../components/Footer";
@@ -19,14 +19,15 @@ const FavoriteScreen = (props) => {
     (async () => {
       try {
         setIsLoading(true);
-        var placesFavorites = await LocalStorageService.getPlacesFavorites();
+        var placesFavorites= await LocalStorageService.getPlacesFavorites();
         let records = await PocketBaseService.getFavorites(placesFavorites);
         setPlaces(records);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
-    })();
+    }
+    )();
   }, []);
 
   return (
@@ -40,20 +41,25 @@ const FavoriteScreen = (props) => {
       </View>
 
       <View style={FavoriteScreenStyles.middlePart}>
-        <FlatList
-          data={places}
-          numColumns={2} // Esto establece el número de columnas
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <CardFavorite
-              style={FavoriteScreenStyles.cardFavorite}
-              title={item.name}
-              address={item.address}
-              image={item.image}
-              //navigation={props.navigation}
-            />
-          )}
-        />
+        <View style={FavoriteScreenStyles.column}>
+    
+          {
+            places.map((place) => {
+              return (
+                <CardFavorite  
+                  style={FavoriteScreenStyles.cardFavorite}       
+                  title={place.name}
+                  address={place.address}
+                  image={place.image}      
+                  navigation={props.navigation}
+                />
+              );
+            }
+            )
+          }
+        
+        </View>
+        <View style={FavoriteScreenStyles.column}></View>
       </View>
       <Footer />
     </View>
