@@ -1,32 +1,33 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import { SearchBar, Icon } from "react-native-elements";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faMugSaucer,
-  faLocationDot,
-  faWhiskeyGlass,
-  faCartShopping,
-  faHotel,
-  faBurger,
-  faStar,
-  faSchool,
-  faEllipsis,
-} from "@fortawesome/free-solid-svg-icons";
+import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
 import CardFavorite from "./Components/CardFavorite";
 import FavoriteScreenStyles from "./Styles/FavoriteScreenStyles";
 import Footer from "../../components/Footer";
+//import { useEffect } from "react";
+//import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import { useState } from "react";
+import { useEffect } from "react";
+import PocketBaseService from "../../services/PocketBaseService";
+import LocalStorageService from "../../services/LocalStorageService";
+import { ScrollView } from "react-native-gesture-handler";
+//import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FavoriteScreen = (props) => {
-  const [search, setSearch] = React.useState("");
-
-  const handlePress = () => {
-    props.navigation.navigate("Categories");
-  };
-
-  const handlePress2 = () => {
-    props.navigation.navigate("MapView");
-  };
+  const [places, setPlaces] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    (async () => {
+      try {
+        setIsLoading(true);
+        var placesFavorites = await LocalStorageService.getPlacesFavorites();
+        let records = await PocketBaseService.getFavorites(placesFavorites);
+        setPlaces(records);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
   return (
     <View style={FavoriteScreenStyles.mainContainer}>
@@ -39,21 +40,24 @@ const FavoriteScreen = (props) => {
       </View>
 
       <View style={FavoriteScreenStyles.middlePart}>
-        <View style={FavoriteScreenStyles.column}>
-
-            <CardFavorite />
-            <CardFavorite />
-        </View>
-        <View style={FavoriteScreenStyles.column}>
-
-            <CardFavorite />
-            <CardFavorite />
-        </View>
+        <FlatList
+          data={places}
+          numColumns={2} // Esto establece el número de columnas
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <CardFavorite
+              style={FavoriteScreenStyles.cardFavorite}
+              title={item.name}
+              address={item.address}
+              image={item.image}
+              //navigation={props.navigation}
+            />
+          )}
+        />
       </View>
       <Footer />
     </View>
   );
 };
- 
 
 export default FavoriteScreen;

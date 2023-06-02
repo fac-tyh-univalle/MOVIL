@@ -7,13 +7,13 @@ import { BackgroundImage } from "react-native-elements/dist/config";
 
 const iconColor = "#3CAFE7";
 const iconColorFavorite = "#F23134";
-const CardFavorite = () => {
+const CardFavorite = ({image,title,address}) => {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
         <View style={styles.imageContainer}>
           <BackgroundImage
-            source={require("../Assets/card-image.png")}
+            src={image}
             style={styles.backgroundImage}
             borderRadius={15}
           >
@@ -25,11 +25,11 @@ const CardFavorite = () => {
         </View>
 
         <View style={styles.Info}>
-          <Text style={styles.titleStyle}>Paseo Aranjuez</Text>
+          <Text style={styles.titleStyle}>{title}</Text>
           <View style={styles.iconLabelStyle}>
-            <Icon name="place" color={iconColor} size={25} style={styles.iconPlace} />
+            <Icon name="place" color={iconColor} size={15} style={styles.iconPlace} />
             <Text style={styles.address}>
-              Av.America #488 esquina Pantaleon Dalence.
+              {address}
             </Text>
           </View>
         </View>
