@@ -7,6 +7,7 @@ import { BackgroundImage } from "react-native-elements/dist/config";
 
 const iconColor = "#3CAFE7";
 const iconColorFavorite = "#F23134";
+
 const CardFavorite = ({image,title,address}) => {
   return (
     <View style={styles.container}>

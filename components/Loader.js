@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        maxHeight: '60%',
+        maxHeight: '80%',
         maxWidth: '100%',
       },
       loader: {

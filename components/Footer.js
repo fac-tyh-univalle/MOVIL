@@ -3,7 +3,7 @@ import { View, Pressable, StyleSheet } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
-const Footer = () => {
+const Footer = ({onSearch}) => {
     // Para que el searchbar funcione correctamente
     const [search, setSearch] = React.useState('');
 
@@ -21,7 +21,10 @@ const Footer = () => {
             inputStyle={styles.searchBarInput}
             searchIcon={<Icon name="search" size={18} color="#ABABAB" />}
             value={search}
-            onChangeText={setSearch}
+            onChangeText={(text) => {
+                setSearch(text);
+                onSearch(text);
+            }}
             />
             <View style={styles.iconContainer}>
                 <Pressable onPress={() => navigation.navigate('Seg')}>
@@ -33,7 +36,7 @@ const Footer = () => {
                     containerStyle={styles.icon}
                     />
                 </Pressable>
-                <Pressable onPress={() => navigation.navigate('MapView')}>
+                <Pressable onPress={() => navigation.navigate({name: 'MapView', params: {categoryId:null}})}>
                     <Icon
                     name="compass"
                     type="font-awesome"

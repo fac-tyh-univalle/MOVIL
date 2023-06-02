@@ -15,9 +15,11 @@ import PocketBaseService from '../../services/PocketBaseService';
 export default function App(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [places, setPlaces] = useState([]);
+  const [filteredPlaces, setFilteredPlaces] = useState([]); // Lista filtrada de lugares
   const [region, setRegion] = useState(null);
   const [search, setSearch] = useState('');
   const [marker, setMarker] = useState(null);
+  const mapRef = React.createRef();
 
   var pathImage= 'https://magnificent-painter.pockethost.io/api/files/';
 
@@ -44,12 +46,19 @@ export default function App(props) {
 
         // Obtén el ID de la categoría desde los parámetros de la ruta
         const { categoryId } = props.route.params;
-
+        
         // Obtén los lugares de la categoría
         let records = await PocketBaseService.getLocationsByCategory(categoryId);
+        records = records.map((record) => {
+          let image = record.photos.filter((photo) => photo.includes('.jpg' || '.png'));
+          return {
+            ...record,
+            image: image.length > 0 ? pathImage + record.collectionId + "/" + record.id + "/" + image[0] : null,
+          }
+        });
+        
         setPlaces(records);
-
-        console.log(records);
+        setFilteredPlaces(records);
 
         setIsLoading(false);
       } catch (e) {
@@ -57,6 +66,31 @@ export default function App(props) {
       }
     })();
   }, []);
+
+  // Este efecto se activará cada vez que el texto de búsqueda cambie
+  useEffect(() => {
+    if (places.length > 0) {
+      // Filtra los lugares basándose en el texto de búsqueda
+      const filtered = places.filter(place => 
+        place.name.toLowerCase().includes(search.toLowerCase())
+      );
+  
+      // Si sólo se ha encontrado un lugar, mueve el mapa a ese lugar
+      if (filtered.length === 1) {
+        const place = filtered[0];
+        mapRef.current.animateToRegion({
+          latitude: place.latitude,
+          longitude: place.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        });
+      }
+  
+      // Actualiza los lugares filtrados
+      setFilteredPlaces(filtered);
+    }
+  }, [search]);
+  
 
 
   const handlePress = (num) => {
@@ -110,12 +144,13 @@ export default function App(props) {
         </Pressable>
       </View>
       <MapView
+        ref={mapRef}
         onPress={handleMapPress}
         style={MapScreenStyles.map} 
         region={region}
         showsUserLocation={true}
       >
-        {places.map((place, index) => (
+        {filteredPlaces.map((place, index) => (
           <Marker
             key={index}
             pinColor="blue" // Esto cambiará el color del marcador a azul
@@ -126,13 +161,14 @@ export default function App(props) {
             title={place.name}
             onPress={() => { 
               props.navigation.navigate('CardPlace', { 
-                id: place.id,
-                image: place.image,
+                photos: place.photos,
                 title: place.name,
                 type: place.type,
                 description: place.description,
                 address: place.address,
-                schedule: place.schedule
+                schedule: place.schedule,
+                collectionId: place.collectionId,
+                id: place.id,
               }) 
             }}
           />
@@ -141,16 +177,19 @@ export default function App(props) {
       <View style={MapScreenStyles.carrouselContainer}>
         <ScrollView horizontal={true}>
         {
-          places && places.map((item, index) => (
+          filteredPlaces && filteredPlaces.map((item, index) => (
             <PlaceCard
-              id={item.id}
               key={index}
-              image={pathImage + item.collectionId + "/" + item.id + "/" + item.photos[0]}
+              image={item.image}
               title={item.name}
               type={item.type}
               description={item.description}
               address={item.address}
               schedule={item.schedule}
+              collectionId={item.collectionId}
+              id={item.id}
+              photos={item.photos}
+              item={item}
             />
           ))
           }

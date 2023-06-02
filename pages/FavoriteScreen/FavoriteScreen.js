@@ -1,20 +1,30 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import CardFavorite from "./Components/CardFavorite";
 import FavoriteScreenStyles from "./Styles/FavoriteScreenStyles";
 import Footer from "../../components/Footer";
-//import { useEffect } from "react";
-//import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useCallback, useEffect } from "react";
+import Loader from "../../components/Loader";
 import PocketBaseService from "../../services/PocketBaseService";
 import LocalStorageService from "../../services/LocalStorageService";
-import { ScrollView } from "react-native-gesture-handler";
-//import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 const FavoriteScreen = (props) => {
   const [places, setPlaces] = useState([]);
+  const [filteredPlaces, setFilteredPlaces] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleSearch = useCallback((searchText) => {
+    if (searchText) {
+        const filtered = places.filter((place) =>
+            place.name.toLowerCase().includes(searchText.toLowerCase())
+        );
+        setFilteredPlaces(filtered);
+    } else {
+        setFilteredPlaces(places);
+    }
+  }, [places]);
+
   useEffect(() => {
     (async () => {
       try {
@@ -22,6 +32,7 @@ const FavoriteScreen = (props) => {
         var placesFavorites= await LocalStorageService.getPlacesFavorites();
         let records = await PocketBaseService.getFavorites(placesFavorites);
         setPlaces(records);
+        setFilteredPlaces(records);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -37,31 +48,30 @@ const FavoriteScreen = (props) => {
       </View>
       <View style={FavoriteScreenStyles.header}>
         <Text style={FavoriteScreenStyles.favoriteSubTitle}>Tus favoritos</Text>
-        <Text style={FavoriteScreenStyles.showAllSubtitle}>Ver Todos</Text>
       </View>
 
       <View style={FavoriteScreenStyles.middlePart}>
-        <View style={FavoriteScreenStyles.column}>
-    
+        <ScrollView contentContainerStyle={FavoriteScreenStyles.column}>
           {
-            places.map((place) => {
+            filteredPlaces.map((place, index) => {
               return (
-                <CardFavorite  
-                  style={FavoriteScreenStyles.cardFavorite}       
-                  title={place.name}
-                  address={place.address}
-                  image={place.image}      
-                  navigation={props.navigation}
-                />
+                <View style={{ width: '50%', padding: 5 }} key={index}>
+                    <CardFavorite  
+                      title={place.name}
+                      address={place.address}
+                      image={place.image}      
+                      navigation={props.navigation}
+                    />
+                </View>
               );
-            }
-            )
+            })
           }
-        
-        </View>
-        <View style={FavoriteScreenStyles.column}></View>
+          {isLoading && (
+            <Loader/>
+          )}
+        </ScrollView>
       </View>
-      <Footer />
+      <Footer onSearch={handleSearch} />
     </View>
   );
 };

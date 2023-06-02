@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { useEffect, useState, useCallback } from 'react';
+import { View, Text, ScrollView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faMugSaucer, faLocationDot, faWhiskeyGlass, faCartShopping, faHotel, faBurger, faStar, faSchool, faEllipsis } from '@fortawesome/free-solid-svg-icons'
+import { faMugSaucer, faLocationDot, faWhiskeyGlass, faCartShopping, faHotel, faBurger, faStar, faSchool, faBasketball, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import MenuCard from './Components/MenuCard';
 import Footer from '../../components/Footer';
 import MainScreenStyles from './Styles/MainScreenStyles';
@@ -14,6 +14,19 @@ const Seg = (props) => {
   const [collections, setCollections] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [location, setLocation] = useState(null);
+  const [filteredCollections, setFilteredCollections] = useState([]);
+
+  const handleSearch = useCallback((searchText) => {
+      if (searchText) {
+          const filtered = collections.filter((item) =>
+              item.name.toLowerCase().includes(searchText.toLowerCase())
+          );
+          setFilteredCollections(filtered);
+      } else {
+          setFilteredCollections(collections);
+      }
+  }, [collections]);
+
 
   const menuItems = [
     {
@@ -43,6 +56,10 @@ const Seg = (props) => {
     {
       title: 'Educación',
       icon: faSchool,
+    },
+    {
+      title: 'Deportes',
+      icon: faBasketball,
     }
   ]
 
@@ -55,12 +72,14 @@ const Seg = (props) => {
         let records = await PocketBaseService.getCategories(menuItems);
         setCollections(records);
   
-        setIsLoading(false);
-
+        
         let location = await Location.getCurrentPositionAsync({});
         let geocode = await Location.reverseGeocodeAsync(location.coords);
         setLocation(geocode[0]);
-  
+        
+        setFilteredCollections(records);
+        
+        setIsLoading(false);
       } catch (e) {
         console.log(e);
       }
@@ -82,9 +101,9 @@ const Seg = (props) => {
         </View>
       </View>
       <View style={MainScreenStyles.middlePart}>
-        <View style={MainScreenStyles.column}>
+         <ScrollView contentContainerStyle={MainScreenStyles.column}>
           {
-            collections && collections.map((item, index) => (
+            filteredCollections && filteredCollections.map((item, index) => (
               <MenuCard
                 key={index}
                 title={item.name}
@@ -97,9 +116,9 @@ const Seg = (props) => {
           {isLoading && (
             <Loader/>
           )}
-         </View>
+         </ScrollView>
       </View>
-      <Footer  />
+      <Footer onSearch={handleSearch} />
     </View>
   );
 };
