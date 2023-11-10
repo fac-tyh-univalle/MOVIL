@@ -28,48 +28,13 @@ const Seg = (props) => {
   }, [collections]);
 
 
-  const menuItems = [
-    {
-      title: 'Cafes',
-      icon: faMugSaucer,
-    },
-    {
-      title: 'Bares',
-      icon: faWhiskeyGlass,
-    },
-    {
-      title: 'Compras',
-      icon: faCartShopping,
-    },
-    {
-      title: 'Hoteles',
-      icon: faHotel,
-    },
-    {
-      title: 'Comida',
-      icon: faBurger,
-    },
-    {
-      title: 'Atracciones',
-      icon: faStar,
-    },
-    {
-      title: 'Educación',
-      icon: faSchool,
-    },
-    {
-      title: 'Deportes',
-      icon: faBasketball,
-    }
-  ]
-
   useEffect(() => {
     (async () => {
       try {
   
         setIsLoading(true);
   
-        let records = await PocketBaseService.getCategories(menuItems);
+        let records = await PocketBaseService.getCategories();
         setCollections(records);
   
         
@@ -101,22 +66,27 @@ const Seg = (props) => {
         </View>
       </View>
       <View style={MainScreenStyles.middlePart}>
-         <ScrollView contentContainerStyle={MainScreenStyles.column}>
+        <ScrollView
+          style={MainScreenStyles.column}
+          showsVerticalScrollIndicator={false}
+        >
           {
-            filteredCollections && filteredCollections.map((item, index) => (
-              <MenuCard
-                key={index}
-                title={item.name}
-                icon={item.icon}
-                id={item.id}
-                props={props}
-              />
-            ))
+            filteredCollections.length > 0 ? (
+              filteredCollections.map((item, index) => (
+                <MenuCard
+                  key={item.id}
+                  title={item.name}
+                  id={item.id}
+                  props={props}
+                />
+              ))
+            ) : isLoading ? (
+              <Loader/>
+            ) : (
+              <Text>No hay elementos para mostrar</Text>
+            )
           }
-          {isLoading && (
-            <Loader/>
-          )}
-         </ScrollView>
+        </ScrollView>
       </View>
       <Footer onSearch={handleSearch} />
     </View>

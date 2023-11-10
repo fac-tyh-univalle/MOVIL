@@ -29,16 +29,13 @@ const MainScreenStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
   middlePart: {
-    flex: 0,
-    //backgroundColor: 'black',
-    height: '65%',
-    justifyContent: 'space-between', 
-    paddingHorizontal: 16, 
+    flex: 1, // Esto permite que el contenedor se expanda
+    justifyContent: 'flex-start', // Cambia a 'flex-start' para alinear los elementos al principio
+    paddingHorizontal: 16,
   },
   column: {
-    flex: 1, 
-    marginRight: 8, 
-    //backgroundColor: 'red',
+    flexGrow: 1, // Esto permite que el contenedor del ScrollView crezca con el contenido
+    // Elimina marginRight si no es necesario, podría afectar el desplazamiento si es muy grande
   },
   
 });

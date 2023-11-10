@@ -4,10 +4,6 @@ import { Pressable, StyleSheet, Text } from "react-native";
 const MenuCard = ({title, icon, id, props}) => {
   return (
     <Pressable style={styles.itemContainer} onPress={() => props.navigation.navigate('MapView', { categoryId: id })}>
-      <FontAwesomeIcon
-        icon={icon}
-        size={40}
-      />
       <Text style={styles.itemText}>{title}</Text>
     </Pressable>
   );

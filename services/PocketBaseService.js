@@ -2,10 +2,10 @@ import PocketBase from 'pocketbase'
 
 class PocketBaseService{
     // Crea una instancia de PocketBase con la URL de la API
-    static pb = new PocketBase('https://magnificent-painter.pockethost.io')
+    static pb = new PocketBase('https://boring-carpenter.pockethost.io')
 
     // Función para obtener las categorías de la base de datos
-    static async getCategories(menuItems){
+    static async getCategories(){
       // Obtiene las categorias creadas
       let records = await this.pb.collection('category').getFullList({
           sort: '-created',
@@ -16,25 +16,25 @@ class PocketBaseService{
         return record.status
       })
   
-      // Obtiene los iconos de las categorias
-      records = records.map((record) => {
+      // // Obtiene los iconos de las categorias
+      // records = records.map((record) => {
   
-        // Obtiene el icono de la categoria
-        let icon = menuItems.find((item) => item.title.toLowerCase() === record.name.toLowerCase()).icon;
+      //   // Obtiene el icono de la categoria
+      //   let icon = menuItems.find((item) => item.title.toLowerCase() === record.name.toLowerCase()).icon;
   
-        // Si no encuentra el icono, le asigna el icono por defecto
-        return {
-          ...record,
-          icon: icon !== null ? icon : faEllipsis,
-        }
-      })
+      //   // Si no encuentra el icono, le asigna el icono por defecto
+      //   return {
+      //     ...record,
+      //     icon: icon !== null ? icon : faEllipsis,
+      //   }
+      // })
   
       // Retorna las categorias
       return records;
   }
 
   static async getLocationsByCategory(categoryId) {
-    let url = 'https://magnificent-painter.pockethost.io/api/files/';
+    let url = 'https://boring-carpenter.pockethost.io/api/files/';
     
     let records = await this.pb.collection('location').getFullList({
       sort: '-created',
@@ -59,7 +59,7 @@ class PocketBaseService{
 
   //Funcion para obtener los lugares favoritos en la base de datos de una lista con los id de los lugares
   static async getFavorites(favorites) {
-    let url = "https://magnificent-painter.pockethost.io/api/files/";
+    let url = "https://boring-carpenter.pockethost.io/api/files/";
     // Obtiene las categorias creadas
     let records = await this.pb.collection("location").getFullList({});
     records = records.filter((record) => {
