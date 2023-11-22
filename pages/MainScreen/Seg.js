@@ -35,7 +35,9 @@ const Seg = (props) => {
         setIsLoading(true);
   
         let records = await PocketBaseService.getCategories();
+        console.log("Categorías recibidas:", records);
         setCollections(records);
+
   
         
         let location = await Location.getCurrentPositionAsync({});

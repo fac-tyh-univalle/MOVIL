@@ -10,18 +10,22 @@ const AudioPlayer = ({ uri }) => {
 
   useEffect(() => {
     const loadAudio = async () => {
-      const { sound } = await Audio.Sound.createAsync(
-        { uri },
-        { shouldPlay: false }
-      );
-      setSound(sound);
-
-      sound.setOnPlaybackStatusUpdate((status) => {
-        setDuration(status.durationMillis);
-        setPosition(status.positionMillis);
-      });
+      try {
+        const { sound } = await Audio.Sound.createAsync(
+          { uri },
+          { shouldPlay: false }
+        );
+        setSound(sound);
+    
+        sound.setOnPlaybackStatusUpdate((status) => {
+          setDuration(status.durationMillis);
+          setPosition(status.positionMillis);
+        });
+      } catch (error) {
+        console.error("Error al cargar el audio", error);
+      }
     };
-
+    
     loadAudio();
 
     return () => {
